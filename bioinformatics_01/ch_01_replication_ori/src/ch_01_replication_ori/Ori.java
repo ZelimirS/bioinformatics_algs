@@ -42,6 +42,82 @@ public class Ori {
 		return frequentPatterns;
 	}
 	
+	/* *************************************************************************************
+	 * frequent patterns based on a frequency array
+	 * */
+	
+	public static int symbolToNumber(String symbol) {
+		switch(symbol) {
+		case "A":
+			return 0;
+		case "C":
+			return 1;
+		case "G":
+			return 2;
+		}
+		// T
+		return 3;
+	}
+	
+	public static String numberToSymbol(int number) {
+		switch(number) {
+		case 0:
+			return "A";
+		case 1:
+			return "C";
+		case 2:
+			return "G";
+		}
+		// 3
+		return "T";
+	}
+	
+	public static int patternToNumber(String pattern) {
+		if(pattern.length() == 0) return 0;
+		String prefix = pattern.substring(0, pattern.length()-1);
+		String suffix = pattern.substring(pattern.length()-1);
+		return 4 * patternToNumber(prefix) + symbolToNumber(suffix);
+	}
+	
+	public static String numberToPattern(int number, int k) {
+		if(k == 1) return numberToSymbol(number);
+		int remainder = number % 4;
+		int prefixIndex = number / 4;
+		String symbol = numberToSymbol(remainder);
+		String prefixPattern = numberToPattern(prefixIndex, k-1);
+		return prefixPattern.concat(symbol);
+	}
+	
+	public static int[] computingFrequencies(String text, int k) {
+		int[] frequencyArray = new int[(int)Math.pow(4.0, k)];
+		String pattern = "";
+		for(int i = 0; i < frequencyArray.length; i++) {
+			frequencyArray[i] = 0;
+		}
+		for(int i = 0; i < text.length() - k + 1; i++) {
+			pattern = text.substring(i, i+k);
+			int j = (int) patternToNumber(pattern);
+			frequencyArray[j] = frequencyArray[j]+1;
+		}
+		
+		return frequencyArray;
+	}
+	
+	public static HashSet<String> fasterFrequentWords(String text, int k){
+		HashSet<String> frequentWords = new HashSet<>();
+		int[] frequencyArray = computingFrequencies(text, k);
+		int maxCount = Arrays.stream(frequencyArray).max().getAsInt();
+		for(int i = 0; i < frequencyArray.length; i++) {
+			if(frequencyArray[i] == maxCount)
+				frequentWords.add(numberToPattern(i, k));
+		}
+		
+		return frequentWords;
+	}
+	
+	
+	//**************************************************************************************
+	
 	public static LinkedHashMap<String, Integer> frequencyTable(String text, int k) {
 		LinkedHashMap<String, Integer> freqMap = new LinkedHashMap<>();
 		int lenText = text.length();
