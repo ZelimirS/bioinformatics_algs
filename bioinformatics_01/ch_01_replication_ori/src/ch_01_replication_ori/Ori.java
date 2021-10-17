@@ -115,6 +115,36 @@ public class Ori {
 		return frequentWords;
 	}
 	
+	// frequent words by sorting
+	
+		public static HashSet<String> frequentWordsBySorting(String text, int k) {
+			HashSet<String> patterns = new HashSet<>();
+			int[] count = new int[text.length() - k + 1];
+			int[] index = new int[text.length() - k + 1];
+			for(int i = 0; i < text.length() - k + 1; i++) {
+				String pattern = text.substring(i, i + k);
+				index[i] = patternToNumber(pattern);
+				count[i] = 1;
+			}
+			Arrays.sort(index);
+
+			for(int j = 1; j < text.length() - k + 1; j++) {
+				if(index[j] == index[j-1]) {
+					count[j] = count[j-1] + 1;
+				}
+			}
+			int maxCount = Arrays.stream(count).max().getAsInt();
+			for(int i = 0; i < text.length() - k + 1; i++) {
+				if(count[i] == maxCount) {
+					String patt = numberToPattern(index[i], k);
+					patterns.add(patt);
+				}
+			}
+			
+			return patterns;
+		}
+	
+	
 	
 	//**************************************************************************************
 	
@@ -168,7 +198,7 @@ public class Ori {
 	public static String text = "";
 	
 	public static void main(String[] args) {
-//		String text = "";
+		String text1 = "";
 		try {
 			text = FileImporter.importFile("E:\\java_learning\\Bioinformatics\\e_coli_genome.txt");
 		}
