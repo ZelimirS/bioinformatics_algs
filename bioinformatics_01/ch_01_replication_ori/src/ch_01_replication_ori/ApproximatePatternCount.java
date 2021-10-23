@@ -31,9 +31,33 @@ public class ApproximatePatternCount {
 				positionsOfMatches.add(i);
 			}
 		}
-		
-		System.out.println(matchingPatterns);
-		
+
+//		System.out.println(matchingPatterns);
+
+		return matchingPatterns.size();
+	}
+
+	/**
+	 * overloaded version with text, instead of the text address
+	 * @param mismatches
+	 * @param text
+	 * @param pattern
+	 * @return
+	 */
+	public static int approximatePatternCountTwo(
+			int mismatches, String text, String pattern) {
+		ArrayList<String> matchingPatterns = new ArrayList<>();
+		ArrayList<Integer> positionsOfMatches = new ArrayList<>();
+		for(int i = 0; i < text.length() - pattern.length() + 1; i++) {
+			if(text.substring(i, i + pattern.length()).equals(pattern) ||
+					HammingDistance.hammingDistance(text.substring(i, i + pattern.length()), pattern) <= mismatches) {
+				matchingPatterns.add(text.substring(i, i+pattern.length()));
+				positionsOfMatches.add(i);
+			}
+		}
+
+//		System.out.println(matchingPatterns);
+
 		return matchingPatterns.size();
 	}
 	

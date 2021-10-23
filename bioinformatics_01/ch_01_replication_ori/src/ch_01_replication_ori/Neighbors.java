@@ -26,9 +26,10 @@ public class Neighbors {
 			neighbors.add("T");
 			return neighbors;
 		}
-		suffixNeighbors = neighbors(pattern.substring(1, pattern.length()), mismatches);
+		String patternSuffix = pattern.substring(1, pattern.length());
+		suffixNeighbors = neighbors(patternSuffix, mismatches);
 		for (String text : suffixNeighbors) {
-			if (HammingDistance.hammingDistance(pattern.substring(1, pattern.length()), text) < mismatches) {
+			if (HammingDistance.hammingDistance(patternSuffix, text) < mismatches) {
 				for (String s : new String[] { "A", "C", "G", "T" }) {
 					neighbors.add(s.concat(text));
 				}
@@ -43,7 +44,6 @@ public class Neighbors {
 	/**
 	 * d-neighborhood - the set of all k-mers who's Humming distance from pattern <= 1
 	 * @param pattern
-	 * @param mismatches
 	 * @return - the set of k-mers
 	 */
 	public static LinkedHashSet<String> immediateNeighbors(String pattern) {
@@ -74,26 +74,22 @@ public class Neighbors {
 			for(String s : neighborhood) {
 				immNeighborhood = immediateNeighbors(s);
 			}
-			for(String str : immNeighborhood) {
-				neighborhood.add(str);
-			}
+//			for(String str : immNeighborhood) {
+//				neighborhood.add(str);
+//			}
 		}
 
-		return neighborhood;
+		return immNeighborhood;
 	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		LinkedHashSet<String> res = iterativeNeighbors("ACT", 1);
+		LinkedHashSet<String> res = iterativeNeighbors("ACG", 1);
 //		LinkedHashSet<String> res = iterativeNeighbors("GGCCCAGAG", 3);
-//		for (String str : res) {
-//			System.out.println(str);
-//		}
-		System.out.println("_____________________________________________________");
-		LinkedHashSet<String> result = neighbors("ACT", 1);
-		for (String str : result) {
+		for (String str : res) {
 			System.out.println(str);
 		}
+
 
 	}
 

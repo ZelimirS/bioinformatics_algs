@@ -25,14 +25,14 @@ public class ApproximatePatternMatching {
 			e.printStackTrace();
 		}
 		for(int i = 0; i < text.length() - pattern.length() + 1; i++) {
-			if(text.substring(i, i + pattern.length()).equals(pattern) ||
-					HammingDistance.hammingDistance(text.substring(i, i + pattern.length()), pattern) <= mismatches) {
-				matchingPatterns.add(text.substring(i, i+pattern.length()));
+			String patt = text.substring(i, i+pattern.length());
+			if(patt.equals(pattern) ||
+					HammingDistance.hammingDistance(patt, pattern) <= mismatches) {
+				matchingPatterns.add(patt);
 				positionsOfMatches.add(i);
 			}
 		}
-		
-		
+
 		return positionsOfMatches;
 	}
 
