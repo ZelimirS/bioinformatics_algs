@@ -38,13 +38,13 @@ public class ApproximatePatternCount {
 	}
 
 	/**
-	 * overloaded version with text, instead of the text address
+	 * >>>overloaded<<< version with text, instead of the text address
 	 * @param mismatches
 	 * @param text
 	 * @param pattern
 	 * @return
 	 */
-	public static int approximatePatternCountTwo(
+	public static int approximatePatternCount(
 			int mismatches, String text, String pattern) {
 		ArrayList<String> matchingPatterns = new ArrayList<>();
 		ArrayList<Integer> positionsOfMatches = new ArrayList<>();

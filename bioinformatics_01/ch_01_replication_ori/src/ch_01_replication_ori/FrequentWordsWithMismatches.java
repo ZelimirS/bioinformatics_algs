@@ -89,7 +89,7 @@ public class FrequentWordsWithMismatches {
 		for(int i = 0; i < close.length; i++){
 			if(close[i] == 1){
 				String pattern = Ori.numberToPattern(i, patternLength);
-				frequencyArray[i] = ApproximatePatternCount.approximatePatternCountTwo(mismatches, text, pattern);
+				frequencyArray[i] = ApproximatePatternCount.approximatePatternCount(mismatches, text, pattern);
 			}
 		}
 		int maxCount = Arrays.stream(frequencyArray).max().getAsInt();
@@ -147,10 +147,10 @@ public class FrequentWordsWithMismatches {
 		// TODO Auto-generated method stub
 		ArrayList<String> result = new ArrayList<>();
 		LinkedHashSet<String> res = new LinkedHashSet<>();
-		result = frequentWordsWithMismatches(
+		res = frequentWordsWithMismatchesTwo(
 				"E:\\java_learning\\Bioinformatics\\radni.txt",
-				10, 2);
-		for(String str : result) {
+				3, 1);
+		for(String str : res) {
 			System.out.print(str + " ");
 		}
 	}
