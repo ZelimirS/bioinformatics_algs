@@ -56,7 +56,7 @@ public class FrequentWordsWithMismatches {
 		return patterns;
 	}
 
-	/**
+	/*
 	 * method that follows the pseudocode from the book
 	 * @param genomAdress
 	 * @param patternLength
@@ -78,6 +78,47 @@ public class FrequentWordsWithMismatches {
 		catch(IOException e){
 			e.printStackTrace();
 		}
+		for(int i = 0; i < text.length() - patternLength + 1; i++){
+			String pattern = text.substring(i, i + patternLength);
+			LinkedHashSet<String> neighbors = Neighbors.neighbors(pattern, mismatches);
+			for(String patt : neighbors){
+				int index = Ori.patternToNumber(patt);
+				close[index] = 1;
+			}
+		}
+		for(int i = 0; i < close.length; i++){
+			if(close[i] == 1){
+				String pattern = Ori.numberToPattern(i, patternLength);
+				frequencyArray[i] = ApproximatePatternCount.approximatePatternCount(mismatches, text, pattern);
+			}
+		}
+		int maxCount = Arrays.stream(frequencyArray).max().getAsInt();
+		for(int i = 0; i < frequencyArray.length; i++){
+			if(frequencyArray[i] == maxCount){
+				patterns.add(Ori.numberToPattern(i, patternLength));
+			}
+		}
+
+		return patterns;
+	}
+
+	/**
+	 * method that follows the pseudocode from the book and takes text instead of textAddress
+	 * @param genom
+	 * @param patternLength
+	 * @param mismatches
+	 * @return
+			 */
+	public static LinkedHashSet<String> frequentWordsWithMismatchesThree(String genom, int patternLength, int mismatches) {
+		LinkedHashSet<String> patterns = new LinkedHashSet<>();
+		int[] close = new int[(int) Math.pow(4.0, patternLength)];
+		int[] frequencyArray = new int[(int) Math.pow(4.0, patternLength)];
+		for(int i = 0; i < close.length; i++){
+			close[i] = 0;
+			frequencyArray[i] = 0;
+		}
+		String text = genom;
+
 		for(int i = 0; i < text.length() - patternLength + 1; i++){
 			String pattern = text.substring(i, i + patternLength);
 			LinkedHashSet<String> neighbors = Neighbors.neighbors(pattern, mismatches);
@@ -147,9 +188,9 @@ public class FrequentWordsWithMismatches {
 		// TODO Auto-generated method stub
 		ArrayList<String> result = new ArrayList<>();
 		LinkedHashSet<String> res = new LinkedHashSet<>();
-		res = frequentWordsWithMismatchesTwo(
+		res = frequentWordsWithMismatchesBySorting(
 				"E:\\java_learning\\Bioinformatics\\radni.txt",
-				3, 1);
+				15, 4);
 		for(String str : res) {
 			System.out.print(str + " ");
 		}
