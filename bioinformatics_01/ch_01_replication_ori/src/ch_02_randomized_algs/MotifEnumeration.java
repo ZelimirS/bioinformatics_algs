@@ -11,6 +11,13 @@ import java.util.HashSet;
 
 public class MotifEnumeration {
 
+    /**
+     * brute force alg
+     * @param dnaAddress
+     * @param patternLength
+     * @param mismatches
+     * @return
+     */
     public static HashSet<String> motifEnumeration(String dnaAddress, int patternLength, int mismatches){
         HashSet<String> patterns = new HashSet<>();
         HashSet<String> neighbors = new HashSet<>();
@@ -56,7 +63,7 @@ public class MotifEnumeration {
     }
 
     public static void main(String[] args) {
-        HashSet<String> result = motifEnumeration("E:\\java_learning\\Bioinformatics\\radni.txt", 3, 0);
+        HashSet<String> result = motifEnumeration("E:\\java_learning\\Bioinformatics\\radni.txt", 5, 2);
         ArrayList<String> res = new ArrayList<>(result);
         Collections.sort(res);
         for(String str : res){
