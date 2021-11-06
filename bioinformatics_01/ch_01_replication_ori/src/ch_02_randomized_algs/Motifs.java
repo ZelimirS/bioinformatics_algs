@@ -216,6 +216,23 @@ public class Motifs {
         return consensusList;
     }
 
+    public static double entropyScore(char[][] motifsMatrix){
+        double entropyScore = 0.0;
+        double ent = 0.0;
+        double[][] profileMatrix = profileMotifs(motifsMatrix);
+        double[][] profileMatrixRotated = rotatedMotifs(profileMatrix);
+        for(double[] column : profileMatrixRotated){
+            for(double d : column){
+                if(d == 0.0) ent += 0.0;
+                else
+                    ent += -(d * (Math.log10(d) / Math.log10(2.0)));
+            }
+            entropyScore += ent;
+            ent = 0.0;
+        }
+        return entropyScore;
+    }
+
     public static void main(String[] args) {
         char[][] mtfs = motifs("E:\\java_learning\\Bioinformatics\\motifTest.txt");
         System.out.println("MOTIF MATRIX:");
@@ -223,6 +240,7 @@ public class Motifs {
         System.out.println();
         System.out.println("COUNT:");
         printMotifMatrix(countMotifs(mtfs));
+        System.out.println();
         System.out.println("SCORE: " + scoreMotifs(mtfs));
         System.out.println();
         System.out.println("PROFILE:");
@@ -232,6 +250,10 @@ public class Motifs {
         for(String s : consensusList(mtfs)){
             System.out.print(s + " ");
         }
+        System.out.println();
+        System.out.println();
+        System.out.print("ENTROPY SCORE: ");
+        System.out.print(entropyScore(mtfs));
     }
 
 
