@@ -31,18 +31,6 @@ public class MedianString {
         }
         return distance;
     }
-    /**
-     * DISTANCEBETWEENPATTERNANDSTRINGS(Pattern, Dna)
-     * k  <---  |Pattern|
-     * distance  <---  0
-     * for each string Text in Dna
-     *      HammingDistance <--- inf
-     *      for each k-mer Pattern’ in Text
-                    if HammingDistance > HAMMINGDISTANCE(Pattern, Pattern’)
-     *                  HammingDistance <--- HAMMINGDISTANCE(Pattern, Pattern’)
-     *      distance <--- distance + HammingDistance
-     * return distance
-     */
 
     public static String medianString(String dnaStrings, int k){
         String median = "";
@@ -62,14 +50,3 @@ public class MedianString {
         System.out.println(medianString("E:\\java_learning\\Bioinformatics\\rosalind_ba2b.txt", 6));
     }
 }
-
-/**
- MEDIANSTRING(Dna, k)
- distance <--- 1
- for i 0 to 4k - 1
-     Pattern <--- NUMBERTOPATTERN(i, k)
-    if distance > DISTANCEBETWEENPATTERNANDSTRINGS(Pattern, Dna)
-        distance <--- DISTANCEBETWEENPATTERNANDSTRINGS(Pattern, Dna)
-        Median <--- Pattern
- return Median
- */
