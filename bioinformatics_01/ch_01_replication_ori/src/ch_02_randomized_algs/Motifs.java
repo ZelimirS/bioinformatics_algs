@@ -218,17 +218,14 @@ public class Motifs {
 
     public static double entropyScore(char[][] motifsMatrix){
         double entropyScore = 0.0;
-        double ent = 0.0;
         double[][] profileMatrix = profileMotifs(motifsMatrix);
         double[][] profileMatrixRotated = rotatedMotifs(profileMatrix);
         for(double[] column : profileMatrixRotated){
             for(double d : column){
-                if(d == 0.0) ent += 0.0;
+                if(d == 0.0) entropyScore += 0.0;
                 else
-                    ent += -(d * (Math.log10(d) / Math.log10(2.0)));
+                    entropyScore += -(d * (Math.log10(d) / Math.log10(2.0)));
             }
-            entropyScore += ent;
-            ent = 0.0;
         }
         return entropyScore;
     }
@@ -254,6 +251,8 @@ public class Motifs {
         System.out.println();
         System.out.print("ENTROPY SCORE: ");
         System.out.print(entropyScore(mtfs));
+
+
     }
 
 
