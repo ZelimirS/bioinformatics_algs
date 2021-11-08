@@ -105,6 +105,55 @@ public class Motifs {
         }
     }
 
+    public static double[][] profileAddressToProfileMatrix(String profileAddress){
+        ArrayList<String> profileStrings = new ArrayList<>();
+        try{
+            profileStrings.addAll(FileImporter.importFileLineByline(profileAddress));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        double[][] profileMatrix = new double[4][profileStrings.get(0).length()/4+1];
+        for(int i = 0; i < 4; i++){
+            String profileRow = profileStrings.get(i).replaceAll("\\s", "");
+            ArrayList<Double> tempList = new ArrayList<>();
+            for(int j = 0; j < profileRow.length(); j += 3){
+                Double d = Double.valueOf(profileRow.substring(j, j+3));
+                tempList.add(d);
+            }
+            for(int m = 0; m < tempList.size(); m++){
+                profileMatrix[i][m] = tempList.get(m);
+            }
+            tempList.clear();
+        }
+
+        return profileMatrix;
+    }
+    public static double[][] profileAddressToProfileMatrixThreeDecimals(String profileAddress){
+        ArrayList<String> profileStrings = new ArrayList<>();
+        try{
+            profileStrings.addAll(FileImporter.importFileLineByline(profileAddress));
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        double[][] profileMatrix = new double[4][profileStrings.get(0).length()/7+1];
+        for(int i = 0; i < 4; i++){
+            String profileRow = profileStrings.get(i).replaceAll("\\s", "");
+            ArrayList<Double> tempList = new ArrayList<>();
+            for(int j = 0; j < profileRow.length(); j += 5){
+                Double d = Double.valueOf(profileRow.substring(j, j+5));
+                tempList.add(d);
+            }
+            for(int m = 0; m < tempList.size(); m++){
+                profileMatrix[i][m] = tempList.get(m);
+            }
+            tempList.clear();
+        }
+
+        return profileMatrix;
+    }
+
     public static int[][] countMotifs(char[][] motifsMatrix){
         char[][] rotatedMotifsMatrix = rotatedMotifs(motifsMatrix);
         int[][] acgtCounts = new int[rotatedMotifsMatrix.length][4];
@@ -251,6 +300,11 @@ public class Motifs {
         System.out.println();
         System.out.print("ENTROPY SCORE: ");
         System.out.print(entropyScore(mtfs));
+
+
+        System.out.println("\n\n\n");
+
+        printMotifMatrix(profileAddressToProfileMatrix("E:\\java_learning\\Bioinformatics\\profile_address.txt"));
 
 
     }
