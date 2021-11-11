@@ -105,7 +105,7 @@ public class Motifs {
         }
     }
 
-    public static double[][] profileAddressToProfileMatrix(String profileAddress){
+    public static double[][] profileAddressToProfileMatrixOneDecimal(String profileAddress){
         ArrayList<String> profileStrings = new ArrayList<>();
         try{
             profileStrings.addAll(FileImporter.importFileLineByline(profileAddress));
@@ -226,6 +226,8 @@ public class Motifs {
                     case 'T':
                         numT += 1;
                         break;
+                    default:
+                        break;
                 }
             }
             double d = motifsMatrix.length * 1.0;
@@ -238,6 +240,75 @@ public class Motifs {
         acgtCountsRotated = rotatedMotifs(acgtCounts);
 
         return acgtCountsRotated;
+    }
+    public static double[][] profileMotifs(char[][] motifsMatrix, int m){
+        char[][] rotatedMotifsMatrix = rotatedMotifs(motifsMatrix);
+        double[][] acgtCounts = new double[rotatedMotifsMatrix.length][4];
+        double[][] acgtCountsRotated = new double[4][rotatedMotifsMatrix.length];
+        int numA = 0, numC = 0, numG = 0, numT = 0;
+
+        for(int i = 0; i < rotatedMotifsMatrix.length; i++){
+            char[] chArr = rotatedMotifsMatrix[i];
+            for(int j = 0; j < rotatedMotifsMatrix[0].length; j++){
+                char ch = chArr[j];
+                switch (ch){
+                    case 'A':
+                        numA += 1;
+                        break;
+                    case 'C':
+                        numC += 1;
+                        break;
+                    case 'G':
+                        numG += 1;
+                        break;
+                    case 'T':
+                        numT += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            double d = m * 1.0;
+            acgtCounts[i][0] = numA / d;
+            acgtCounts[i][1] = numC / d;
+            acgtCounts[i][2] = numG / d;
+            acgtCounts[i][3] = numT / d;
+            numA = 0; numC = 0; numG = 0; numT = 0;
+        }
+        acgtCountsRotated = rotatedMotifs(acgtCounts);
+
+        return acgtCountsRotated;
+    }
+    // overloaded method that takes char[]
+    public static double[][] profileMotifs(char[] motifsMatrix){
+        double[][] acgtCounts = new double[4][motifsMatrix.length];
+        int numA = 0, numC = 0, numG = 0, numT = 0;
+
+        for(int i = 0; i < motifsMatrix.length; i++){
+            char ch = motifsMatrix[i];
+            switch (ch){
+                case 'A':
+                    numA = 1;
+                    break;
+                case 'C':
+                    numC = 1;
+                    break;
+                case 'G':
+                    numG = 1;
+                    break;
+                case 'T':
+                    numT = 1;
+                    break;
+            }
+            double d = 1.0;
+            acgtCounts[0][i] = numA / d;
+            acgtCounts[1][i] = numC / d;
+            acgtCounts[2][i] = numG / d;
+            acgtCounts[3][i] = numT / d;
+            numA = 0; numC = 0; numG = 0; numT = 0;
+        }
+
+        return acgtCounts;
     }
 
     public static ArrayList<String> consensusList(char[][] motifsMatrix){
@@ -304,7 +375,7 @@ public class Motifs {
 
         System.out.println("\n\n\n");
 
-        printMotifMatrix(profileAddressToProfileMatrix("E:\\java_learning\\Bioinformatics\\profile_address.txt"));
+        printMotifMatrix(profileAddressToProfileMatrixThreeDecimals("E:\\java_learning\\Bioinformatics\\profile_address.txt"));
 
 
     }

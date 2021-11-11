@@ -11,7 +11,7 @@ public class ProfileMostProbableKmer {
         String text = "";
         double probability = 1.0;
         double kmerProbability = Double.NEGATIVE_INFINITY;
-//        double[][] profileMatrix = Motifs.profileAddressToProfileMatrix(profileAddress);
+//        double[][] profileMatrix = Motifs.profileAddressToProfileMatrixOneDecimal(profileAddress);
         double[][] profileMatrix = Motifs.profileAddressToProfileMatrixThreeDecimals(profileAddress);
         try{
             text = FileImporter.importFile(textAddress);
@@ -44,6 +44,47 @@ public class ProfileMostProbableKmer {
 
                 }
                 probability = 1.0;
+        }
+
+        return kmer;
+    }
+
+    /**
+     * overloaded version that doesn't use addresses but text and double[][] matrix directly
+     * @param text
+     * @param k
+     * @param profileMatrix
+     * @return
+     */
+    public static String profileMostProbableKmer(String text, double[][] profileMatrix, int k){
+        String kmer = "";
+        double probability = 1.0;
+        double kmerProbability = Double.NEGATIVE_INFINITY;
+        for(int i = 0; i < text.length() - k + 1; i++){
+            String pattern = text.substring(i, i + k);
+            for(int m = 0; m < pattern.length(); m++){
+                char ch = pattern.charAt(m);
+                switch(ch){
+                    case 'A':
+                        probability *= profileMatrix[0][m];
+                        break;
+                    case 'C':
+                        probability *= profileMatrix[1][m];
+                        break;
+                    case 'G':
+                        probability *= profileMatrix[2][m];
+                        break;
+                    case 'T':
+                        probability *= profileMatrix[3][m];
+                        break;
+                }
+            }
+            if(kmerProbability < probability){
+                kmerProbability = probability;
+                kmer = pattern;
+
+            }
+            probability = 1.0;
         }
 
         return kmer;
