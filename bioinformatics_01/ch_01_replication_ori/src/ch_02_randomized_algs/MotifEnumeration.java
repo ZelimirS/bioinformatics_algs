@@ -29,13 +29,6 @@ public class MotifEnumeration {
         catch(IOException e){
             e.printStackTrace();
         }
-        String text = "";
-        try{
-            text = FileImporter.importFile(dnaAddress);
-        }
-        catch(IOException e){
-            e.printStackTrace();
-        }
         String firstDnaString = listOfDnaStrings.get(0);
         for (int i = 0; i < firstDnaString.length() - patternLength + 1; i++) {
             String pattern = firstDnaString.substring(i, i + patternLength);

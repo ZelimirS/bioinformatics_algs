@@ -241,7 +241,8 @@ public class Motifs {
 
         return acgtCountsRotated;
     }
-    public static double[][] profileMotifs(char[][] motifsMatrix, int m){
+
+    public static double[][] profileMotifsLaplace(char[][] motifsMatrix){
         char[][] rotatedMotifsMatrix = rotatedMotifs(motifsMatrix);
         double[][] acgtCounts = new double[rotatedMotifsMatrix.length][4];
         double[][] acgtCountsRotated = new double[4][rotatedMotifsMatrix.length];
@@ -268,47 +269,16 @@ public class Motifs {
                         break;
                 }
             }
-            double d = m * 1.0;
-            acgtCounts[i][0] = numA / d;
-            acgtCounts[i][1] = numC / d;
-            acgtCounts[i][2] = numG / d;
-            acgtCounts[i][3] = numT / d;
+            double d = motifsMatrix.length * 1.0;
+            acgtCounts[i][0] = numA / d + 1;
+            acgtCounts[i][1] = numC / d + 1;
+            acgtCounts[i][2] = numG / d + 1;
+            acgtCounts[i][3] = numT / d + 1;
             numA = 0; numC = 0; numG = 0; numT = 0;
         }
         acgtCountsRotated = rotatedMotifs(acgtCounts);
 
         return acgtCountsRotated;
-    }
-    // overloaded method that takes char[]
-    public static double[][] profileMotifs(char[] motifsMatrix){
-        double[][] acgtCounts = new double[4][motifsMatrix.length];
-        int numA = 0, numC = 0, numG = 0, numT = 0;
-
-        for(int i = 0; i < motifsMatrix.length; i++){
-            char ch = motifsMatrix[i];
-            switch (ch){
-                case 'A':
-                    numA = 1;
-                    break;
-                case 'C':
-                    numC = 1;
-                    break;
-                case 'G':
-                    numG = 1;
-                    break;
-                case 'T':
-                    numT = 1;
-                    break;
-            }
-            double d = 1.0;
-            acgtCounts[0][i] = numA / d;
-            acgtCounts[1][i] = numC / d;
-            acgtCounts[2][i] = numG / d;
-            acgtCounts[3][i] = numT / d;
-            numA = 0; numC = 0; numG = 0; numT = 0;
-        }
-
-        return acgtCounts;
     }
 
     public static ArrayList<String> consensusList(char[][] motifsMatrix){

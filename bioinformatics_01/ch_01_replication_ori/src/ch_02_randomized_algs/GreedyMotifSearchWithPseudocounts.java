@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class GreedyMotifSearch {
+public class GreedyMotifSearchWithPseudocounts {
 
     public static ArrayList<String> greedyMotifSearch(String dnaStringsCollectionAddress, int k, int t){
         ArrayList<String> bestMotifsList = new ArrayList<>();
@@ -30,7 +30,7 @@ public class GreedyMotifSearch {
             char[] kmer = dnaFirst.substring(i, i + k).toCharArray();
             bestMotifsArrCopy[0] = kmer;
             for(int j = 1; j < t; j++){
-                double[][] profileMatrixBestMotifs = Motifs.profileMotifs(bestMotifsArrCopy);
+                double[][] profileMatrixBestMotifs = Motifs.profileMotifsLaplace(bestMotifsArrCopy);
                 bestMotifsArrCopy[j] = ProfileMostProbableKmer.profileMostProbableKmer(listOfDnaStrings.get(j), profileMatrixBestMotifs, k).toCharArray();
             }
             if(Motifs.scoreMotifs(bestMotifsArrCopy) < Motifs.scoreMotifs(bestMotifsArr)){
@@ -46,7 +46,7 @@ public class GreedyMotifSearch {
     }
 
     public static void main(String[] args) {
-        ArrayList<String> hs = greedyMotifSearch("E:\\java_learning\\Bioinformatics\\motifTest.txt", 4, 5);
+        ArrayList<String> hs = greedyMotifSearch("E:\\java_learning\\Bioinformatics\\rosalind_ba2e.txt", 12, 25);
         for(String str : hs)
             System.out.println(str);
 
