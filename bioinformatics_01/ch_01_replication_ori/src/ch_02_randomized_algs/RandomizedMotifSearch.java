@@ -26,12 +26,12 @@ public class RandomizedMotifSearch {
             String str = listOfDna.get(i).substring(index, index + k);
             motifs[i] = str.toCharArray();
         }
-        bestMotifs = motifs;
+        bestMotifs = Arrays.copyOf(motifs, motifs.length);
         while(true){
             double[][] profile = Motifs.profileMotifsLaplace(motifs);
             motifs = motifs(profile, listOfDna, k);
             if(Motifs.scoreMotifs(motifs) < Motifs.scoreMotifs(bestMotifs)){
-                bestMotifs = motifs;
+                bestMotifs = Arrays.copyOf(motifs, motifs.length);
             }
             else {
                 for(char[] ch : motifs){
@@ -59,12 +59,12 @@ public class RandomizedMotifSearch {
         int bestScore = Integer.MAX_VALUE;
 
         /////////////////////////////////////////////////////////////////
-        ArrayList<String> list = new ArrayList<>();
+        /*ArrayList<String> list = new ArrayList<>();
         list = randomizedMotifSearch(dnaAddress, k, t);
         for(int j = 0; j <  t; j++){
             String str = list.get(j);
             mtfs[j] = str.toCharArray();
-        }
+        }*/
         /////////////////////////////////////////////////////////////////
 
         for(int i = 0; i < times; i++){
@@ -76,9 +76,7 @@ public class RandomizedMotifSearch {
             }
             int score = Motifs.scoreMotifs(bestMtfs);
             if(score < bestScore){
-                for(int l = 0; l < bestMtfs.length; l++)
-                    mtfs[l] = bestMtfs[l];
-
+                mtfs = Arrays.copyOf(bestMtfs, t);
                 bestScore = score;
             }
         }
@@ -91,7 +89,7 @@ public class RandomizedMotifSearch {
 
     public static void main(String[] args) {
         ArrayList<String> result = new ArrayList<>();
-        result = runRandomizedMotifsearchNTimes("D:\\java_learning\\Bioinformatics\\rosalind_ba2f.txt", 15, 20, 1000);
+        result = runRandomizedMotifsearchNTimes("D:\\java_learning\\Bioinformatics\\motifTest.txt", 8, 5, 1000);
         for(String str : result)
             System.out.println(str);
     }
