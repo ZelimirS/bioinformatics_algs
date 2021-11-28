@@ -26,12 +26,20 @@ public class RandomizedMotifSearch {
             String str = listOfDna.get(i).substring(index, index + k);
             motifs[i] = str.toCharArray();
         }
-        bestMotifs = Arrays.copyOf(motifs, motifs.length);
+        for(int o = 0; o < motifs.length; o++){
+            for(int p =  0; p < motifs[o].length; p++){
+                bestMotifs[o][p] = motifs[o][p];
+            }
+        }
         while(true){
             double[][] profile = Motifs.profileMotifsLaplace(motifs);
             motifs = motifs(profile, listOfDna, k);
             if(Motifs.scoreMotifs(motifs) < Motifs.scoreMotifs(bestMotifs)){
-                bestMotifs = Arrays.copyOf(motifs, motifs.length);
+                for(int o = 0; o < motifs.length; o++){
+                    for(int p =  0; p < motifs[o].length; p++){
+                        bestMotifs[o][p] = motifs[o][p];
+                    }
+                }
             }
             else {
                 for(char[] ch : motifs){
@@ -68,15 +76,18 @@ public class RandomizedMotifSearch {
         /////////////////////////////////////////////////////////////////
 
         for(int i = 0; i < times; i++){
-
-            bestMotifsList = randomizedMotifSearch(dnaAddress, k, t); //////////////////////////////////////////////////
+            bestMotifsList = randomizedMotifSearch(dnaAddress, k, t);
             for(int j = 0; j <  t; j++){
                 String str = bestMotifsList.get(j);
                 bestMtfs[j] = str.toCharArray();
             }
             int score = Motifs.scoreMotifs(bestMtfs);
             if(score < bestScore){
-                mtfs = Arrays.copyOf(bestMtfs, t);
+                for(int o = 0; o < bestMtfs.length; o++){
+                    for(int p =  0; p < bestMtfs[o].length; p++){
+                        mtfs[o][p] = bestMtfs[o][p];
+                    }
+                }
                 bestScore = score;
             }
         }

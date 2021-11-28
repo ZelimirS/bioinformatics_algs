@@ -189,6 +189,41 @@ public class Motifs {
 
         return acgtCountsRotated;
     }
+    public static int[][] countMotifsLaplace(char[][] motifsMatrix){
+        char[][] rotatedMotifsMatrix = rotatedMotifs(motifsMatrix);
+        int[][] acgtCounts = new int[rotatedMotifsMatrix.length][4];
+        int[][] acgtCountsRotated = new int[4][rotatedMotifsMatrix.length];
+        int numA = 0, numC = 0, numG = 0, numT = 0;
+
+        for(int i = 0; i < rotatedMotifsMatrix.length; i++){
+            char[] chArr = rotatedMotifsMatrix[i];
+            for(int j = 0; j < rotatedMotifsMatrix[0].length; j++){
+                char ch = chArr[j];
+                switch (ch){
+                    case 'A':
+                        numA += 1;
+                        break;
+                    case 'C':
+                        numC += 1;
+                        break;
+                    case 'G':
+                        numG += 1;
+                        break;
+                    case 'T':
+                        numT += 1;
+                        break;
+                }
+            }
+            acgtCounts[i][0] = numA + 1;
+            acgtCounts[i][1] = numC + 1;
+            acgtCounts[i][2] = numG + 1;
+            acgtCounts[i][3] = numT + 1;
+            numA = 0; numC = 0; numG = 0; numT = 0;
+        }
+        acgtCountsRotated = rotatedMotifs(acgtCounts);
+
+        return acgtCountsRotated;
+    }
 
     public static int scoreMotifs(char[][] motifsMatrix){
         int[][] countedMotifs = countMotifs(motifsMatrix);
@@ -204,81 +239,35 @@ public class Motifs {
     }
 
     public static double[][] profileMotifs(char[][] motifsMatrix){
-        char[][] rotatedMotifsMatrix = rotatedMotifs(motifsMatrix);
-        double[][] acgtCounts = new double[rotatedMotifsMatrix.length][4];
-        double[][] acgtCountsRotated = new double[4][rotatedMotifsMatrix.length];
-        int numA = 0, numC = 0, numG = 0, numT = 0;
-
-        for(int i = 0; i < rotatedMotifsMatrix.length; i++){
-            char[] chArr = rotatedMotifsMatrix[i];
-            for(int j = 0; j < rotatedMotifsMatrix[0].length; j++){
-                char ch = chArr[j];
-                switch (ch){
-                    case 'A':
-                        numA += 1;
-                        break;
-                    case 'C':
-                        numC += 1;
-                        break;
-                    case 'G':
-                        numG += 1;
-                        break;
-                    case 'T':
-                        numT += 1;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            double d = motifsMatrix.length * 1.0;
-            acgtCounts[i][0] = numA / d;
-            acgtCounts[i][1] = numC / d;
-            acgtCounts[i][2] = numG / d;
-            acgtCounts[i][3] = numT / d;
-            numA = 0; numC = 0; numG = 0; numT = 0;
+        double d = 0.0;
+        int[][] countMatrix = countMotifs(motifsMatrix);
+        double[][] profileMatrix = new double[countMatrix.length][countMatrix[0].length];
+        for(int i = 0; i < countMatrix.length; i++){
+            d += countMatrix[i][0];
         }
-        acgtCountsRotated = rotatedMotifs(acgtCounts);
+        for(int i = 0; i < countMatrix.length; i++) {
+            for (int j = 0; j < countMatrix[0].length; j++) {
+                profileMatrix[i][j] = countMatrix[i][j] / d;
+            }
+        }
 
-        return acgtCountsRotated;
+        return profileMatrix;
     }
 
     public static double[][] profileMotifsLaplace(char[][] motifsMatrix){
-        char[][] rotatedMotifsMatrix = rotatedMotifs(motifsMatrix);
-        double[][] acgtCounts = new double[rotatedMotifsMatrix.length][4];
-        double[][] acgtCountsRotated = new double[4][rotatedMotifsMatrix.length];
-        int numA = 0, numC = 0, numG = 0, numT = 0;
-
-        for(int i = 0; i < rotatedMotifsMatrix.length; i++){
-            char[] chArr = rotatedMotifsMatrix[i];
-            for(int j = 0; j < rotatedMotifsMatrix[0].length; j++){
-                char ch = chArr[j];
-                switch (ch){
-                    case 'A':
-                        numA += 1;
-                        break;
-                    case 'C':
-                        numC += 1;
-                        break;
-                    case 'G':
-                        numG += 1;
-                        break;
-                    case 'T':
-                        numT += 1;
-                        break;
-                    default:
-                        break;
-                }
-            }
-            double d = motifsMatrix.length * 1.0;
-            acgtCounts[i][0] = numA / d + 1;
-            acgtCounts[i][1] = numC / d + 1;
-            acgtCounts[i][2] = numG / d + 1;
-            acgtCounts[i][3] = numT / d + 1;
-            numA = 0; numC = 0; numG = 0; numT = 0;
+        double d = 0.0;
+        int[][] countMatrix = countMotifsLaplace(motifsMatrix);
+        double[][] profileMatrix = new double[countMatrix.length][countMatrix[0].length];
+        for(int i = 0; i < countMatrix.length; i++){
+            d += countMatrix[i][0];
         }
-        acgtCountsRotated = rotatedMotifs(acgtCounts);
+        for(int i = 0; i < countMatrix.length; i++) {
+            for (int j = 0; j < countMatrix[0].length; j++) {
+                profileMatrix[i][j] = countMatrix[i][j] / d;
+            }
+        }
 
-        return acgtCountsRotated;
+        return profileMatrix;
     }
 
     public static ArrayList<String> consensusList(char[][] motifsMatrix){
@@ -321,7 +310,7 @@ public class Motifs {
     }
 
     public static void main(String[] args) {
-        char[][] mtfs = motifs("E:\\java_learning\\Bioinformatics\\motifTest.txt");
+        char[][] mtfs = motifs("D:\\java_learning\\Bioinformatics\\motifTest.txt");
         System.out.println("MOTIF MATRIX:");
         printMotifMatrix(mtfs);
         System.out.println();
@@ -345,8 +334,7 @@ public class Motifs {
 
         System.out.println("\n\n\n");
 
-        printMotifMatrix(profileAddressToProfileMatrixThreeDecimals("E:\\java_learning\\Bioinformatics\\profile_address.txt"));
-
+        printMotifMatrix(profileAddressToProfileMatrixThreeDecimals("D:\\java_learning\\Bioinformatics\\profile_address.txt"));
 
     }
 
