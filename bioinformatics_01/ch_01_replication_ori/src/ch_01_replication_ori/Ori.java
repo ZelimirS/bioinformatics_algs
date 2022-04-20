@@ -212,9 +212,14 @@ public class Ori {
 //		System.out.println(patternCount(text, pattern));
 //		System.out.println(frequentWords(text, 3));
 //		System.out.println(frequencyTable(text, 9));
-		System.out.println("***************************************************");
+		//System.out.println("***************************************************");
 //		System.out.println(maxMap(frequencyTable(text, 11)));
-		System.out.println(betterFrequentWords(segment, 9));
+		//System.out.println(betterFrequentWords(segment, 9));
+
+
+		System.out.println(patternToNumber("AGT"));
+		System.out.println(numberToPattern(11, 3));
+		System.out.println(2 / 4);
 		
 	}
 
